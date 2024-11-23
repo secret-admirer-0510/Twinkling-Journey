@@ -1,279 +1,242 @@
-<!DOCTYPE html>
-<html lang="en">
+body {
+  margin: 0;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Moments of Joy</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: mistyrose;
-            text-align: center;
-            padding: 20px;
-        }
+  background-image: linear-gradient(0deg, #e87d7d 0%, #11a4ff 100%);
+}
 
-        .container {
-            margin: 50px auto;
-            padding: 20px;
-            border-radius: 10px;
-            background: #ffffff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-width: 500px;
-        }
+#envelope {
+  position: absolute;
+  top: calc(50vh - 200px);
+  left: calc(50vw - 150px);
+  width: 300px;
+  height: 300px;
+}
 
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+#envelope>* {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
 
-        .yes-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
+#back {
+  display: block;
+  z-index: 0;
+}
 
-        .no-btn {
-            background-color: #f44336;
-            color: white;
-        }
+#front {
+  display: block;
+  z-index: 10;
+}
 
-        .skip-btn {
-            background-color: #808080;
-            color: white;
-        }
+#top {
+  display: block;
+  z-index: 11;
+}
 
-        .funny-msg,
-        .fun-msg,
-        .compliment-msg,
-        .quiz-msg {
-            margin-top: 20px;
-            color: #555;
-            display: none;
-        }
+#top.animate,
+#front.animate,
+#back.animate,
+#envelope button.animate {
+  opacity: 0;
+  transition: opacity 1s;
+  transition-delay: 1s;
+}
 
-        .playful-msg,
-        .appreciation-msg {
-            margin-top: 20px;
-            color: #555;
-            display: none;
-        }
+#letter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  /* Increased padding for more space inside */
+  z-index: 5;
+  left: 10px;
+  /* Adjusted for new proportions */
+  right: 10px;
+  bottom: 5px;
+  top: 95px;
+  /* Adjusted initial position */
 
-        input#userName {
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 80%;
-            max-width: 300px;
-            text-align: center;
-        }
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  word-wrap: break-word;
+  font-size: 18px;
+  /* Increased font size */
+}
 
-        #progress {
-            margin-top: 20px;
-            font-size: 16px;
-            color: #333;
-        }
+h1 {
+  padding-top: 12px;
+}
 
-        #confettiCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-    </style>
-</head>
+h1 span {
+  color: red;
+}
 
-<body>
+p {
+  font-size: 17px;
+  /* padding: 2px; */
+  margin: 0 0 5px 0;
+  line-height: 20px;
+  text-align: justify;
+}
 
-    <!-- Intro Section -->
-    <div id="intro" class="container">
-        <h2>Welcome to the interactive experience!</h2>
-        <p>This is a fun, lighthearted interactive page I made for you. Don’t worry, no pressure at all! 😊</p>
-        <!-- <button class="skip-btn" onclick="skipIntro()">Skip Intro</button> -->
-        <button class="yes-btn" onclick="startInteraction()">Start</button>
-    </div>
+#letter img {
+  background-size: cover;
+}
 
-    <div id="step0" class="container" style="display: none;">
-        <h2>What can I call you?</h2>
-        <input type="text" id="userName" placeholder="Enter your name" style="padding: 10px; margin: 10px;">
-        <button class="yes-btn" onclick="captureName()">Next</button>
-        <!-- <button class="skip-btn" onclick="nextStep('step1')">Skip</button> -->
-        <div id="progress">Step 1 of 7</div>
-    </div>
+#letter.animate {
+  animation: makebig 2s forwards;
+  animation-delay: 1s;
+}
 
-    <div id="step1" class="container" style="display: none;">
-        <h2 id="welcomeMessage"></h2>
-        <p>Now, are you comfortable with me?</p>
-        <button class="yes-btn" onclick="nextStep('step2')">Yes</button>
-        <button class="no-btn" onclick="showFunnyMessage()">Not sure yet...</button>
-        <button class="skip-btn" onclick="nextStep('step2')">Skip</button>
-        <p class="funny-msg" id="funnyMsg">Take your time! I have a feeling you'll say 'Yes' when you're ready. 😊</p>
-        <div id="progress">Step 2 of 7</div>
-    </div>
+@keyframes makebig {
+  0% {
+    top: 95px;
+    left: 10px;
+    right: 10px;
+    bottom: 5px;
+    font-size: 18px;
+  }
 
-    <div id="step2" class="container" style="display: none;">
-        <h2>I knew it! 😊</h2>
-        <p>But don't worry, I'll make sure you stay comfortable. Ready for the next step?</p>
-        <button class="yes-btn" onclick="nextStep('step3')">Absolutely!</button>
-        <button class="no-btn" onclick="showFunMessage()">Hmm, maybe?</button>
-        <button class="skip-btn" onclick="nextStep('step3')">Skip</button>
-        <p class="fun-msg hidden" id="funMsg">Don't be shy! Hit 'Absolutely!</p>
-        <div id="progress">Step 3 of 7</div>
-    </div>
+  33% {
+    top: -120px;
+    /* Moved higher for length */
+    left: 5px;
+    /* Reduced margins for larger width */
+    right: 5px;
+    bottom: 180px;
+    /* Increased bottom space for height */
+    font-size: 20px;
+  }
 
-    <div id="step3" class="container" style="display: none;">
-        <h2>What do you think is your best quality? Take your pick:</h2>
-        <button onclick="showCompliment('smile')">My smile</button>
-        <button onclick="showCompliment('simplicity')">My simplicity</button>
-        <button onclick="showCompliment('all')">Not sure...</button>
-        <p id="complimentMsg" class="compliment-msg"></p>
-        <button class="skip-btn" onclick="nextStep('step4')">Skip</button>
-        <div id="progress">Step 4 of 7</div>
-    </div>
+  100% {
+    top: -20px;
+    left: -75px;
+    right: -45px;
+    bottom: -190px;
+    /* Increased proportions overall */
+    font-size: 28px;
+    /* Final font size for larger text */
+  }
+}
 
-    <div id="step4" class="container" style="display: none;">
-        <h2>Let’s test your awesomeness level!</h2>
-        <p>What’s better than a day full of joy?</p>
-        <button onclick="logQuizAnswer('A day full of joy AND success!')">A day full of joy AND success!</button>
-        <button onclick="logQuizAnswer('A compliment from someone who cares!')">A compliment from someone who
-            cares!</button>
-        <button onclick="logQuizAnswer('All the good vibes in the world!')">All the good vibes in the world!</button>
-        <p id="quizMsg" class="quiz-msg">Absolutely! You deserve all the joy, success, and good vibes out there! 🌈✨</p>
-        <button class="skip-btn" onclick="nextStep('final')">Skip</button>
-        <div id="progress">Step 5 of 7</div>
-    </div>
+#letter h1 {
+  font-size: inherit;
+}
 
-    <div id="final" class="container" style="display: none;">
-        <h2>Now that we're officially in sync...</h2>
-        <p>Hope this brought a smile! No pressure to reply, but it’d be great to know your thoughts if you feel like
-            sharing. 😊</p>
-        <button class="yes-btn" onclick="thankYou()">Deal!</button>
-        <button class="no-btn" onclick="showAppreciation()">Let me think...</button>
-        <p class="appreciation-msg" id="appreciationMsg">Take your time, but remember, you're appreciated no matter
-            what! 🌟</p>
-        <div id="progress">Step 6 of 7</div>
-    </div>
+#letter h2 {
+  font-size: inherit;
+}
 
-    <!-- Confetti.js Canvas -->
-    <canvas id="confettiCanvas"></canvas>
+#letter img {
+  height: 50%;
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
-    <script>
+a {
+  color: red;
+}
 
-        function startInteraction() {
-            document.getElementById('intro').style.display = 'none';
-            document.getElementById('step0').style.display = 'block';
-        }
-        let currentStep = 0;
+#envelope button {
+  display: block;
+  z-index: 15;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgb(255, 89, 0);
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  top: calc(200px - 25px);
+  left: calc(150px - 25px);
+  transition: transform 1s, background-color 1s, color 1s;
+}
 
-        function nextStep(stepId) {
-            document.querySelectorAll('.container').forEach(container => container.style.display = 'none');
-            document.getElementById(stepId).style.display = 'block';
-            currentStep++;
-            updateProgress();
-        }
+#envelope button:hover {
+  background-color: white;
+  transform: scale(1.5);
+  color: rgb(255, 89, 0);
+  transition: transform 1s, background-color 1s, color 1s;
+}
 
-        function updateProgress() {
-            const totalSteps = 5;
-            document.getElementById('progress').textContent = `Step ${currentStep + 1} of ${totalSteps}`;
-        }
+.text h1 {
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
 
-        function showFunnyMessage() {
-            document.getElementById('funnyMsg').style.display = 'block';
-        }
+p.signature {
+  margin: 20px 0 0 auto;
+  /* Space above and align to the right */
+  text-align: right;
+  /* Align text to the right */
+  font-style: italic;
+  /* Italicize for a handwritten feel */
+  font-size: 18px;
+  /* Slightly larger font for emphasis */
+  color: #555;
+  /* Subtle color to differentiate */
+  font-family: 'Dancing Script', cursive;
+  /* Elegant font style */
+  border-top: 1px solid #ddd;
+  /* Optional separator above */
+  padding-top: 10px;
+  /* Space between the signature and separator */
+  width: fit-content;
+  /* Ensure it only takes as much space as needed */
+}
 
-        function showFunMessage() {
-            document.getElementById('funMsg').style.display = 'block';
-        }
+/* Change */
 
-        function showCompliment(option) {
-            const compliments = {
-                smile: "Correct! Your smile lights up the room! 😊",
-                simplicity: "Perfect answer! Your simplicity shows that true beauty is often found in authenticity and genuineness. 😊",
-                all: "That’s okay! The answer is... all of it! You’re just amazing. 😄"
-            };
-            logUserInput('ComplimentChoice', option); // Log the compliment choice
-            document.getElementById('complimentMsg').textContent = compliments[option];
-            document.getElementById('complimentMsg').style.display = 'block';
-            setTimeout(() => nextStep('step4'), 4500);
-        }
+@media (max-width: 768px) {
+  #letter {
+    padding: 15px;
+    font-size: 16px;
+    margin: 10px; /* Adjust spacing */
+  }
 
-        function showQuizAnswer() {
-            document.getElementById('quizMsg').style.display = 'block';
-            setTimeout(() => nextStep('final'), 2000);
-        }
+  h1 {
+    font-size: 22px;
+  }
 
-        function showAppreciation() {
-            document.getElementById('appreciationMsg').style.display = 'block';
-        }
+  p {
+    font-size: 15px;
+  }
 
-        function thankYou() {
-            alert("Thank you for playing along! You're the best! 💖");
-            showConfetti();
-            setTimeout(() => {
-                window.location.href = "letter1.html";
-            }, 2000);
-        }
+  p.signature {
+    font-size: 16px; /* Slightly larger signature font */
+    padding: 0 5px; /* Prevent text clipping on small screens */
+  }
+}
 
-        function showConfetti() {
-            const confettiSettings = { target: 'confettiCanvas' };
-            const confetti = new ConfettiGenerator(confettiSettings);
-            confetti.render();
-        }
+@media (max-width: 480px) {
+  #letter.animate  {
+    padding: 2vw; /* Use viewport width for responsive padding */
+    font-size: 4vw; /* Font size adjusts based on screen size */
+    margin: 0vw auto; /* Margin will adjust automatically */
+    margin-top: -10vh; /* Vertical margin based on viewport height */
+    align-items: center;
+    margin-left: 7vw;
+    
+    }
 
+  h1 {
+    font-size: 20px;
+  }
 
+  p {
+    font-size: 14px;
+    line-height: 1.4;
+  }
 
-        let userName = "";
-
-        function captureName() {
-            const input = document.getElementById('userName').value.trim();
-            if (input) {
-                userName = input;
-                logUserInput('Name', userName); // Log the name to the server
-                document.getElementById('welcomeMessage').textContent = `Welcome, ${userName}!`;
-                nextStep('step1');
-            } else {
-                alert("Please enter your name to proceed.");
-            }
-        }
-
-        function logUserInput(inputType, value) {
-            fetch('/log-input', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ inputType, value, timestamp: new Date().toISOString() })
-            }).catch(err => console.error("Logging failed", err));
-        }
-
-        function logQuizAnswer(answer) {
-            logUserInput('QuizAnswer', answer); // Log the selected answer
-            document.getElementById('quizMsg').style.display = 'block';
-            setTimeout(() => nextStep('final'), 2000);
-        }
-
-        function logClick(buttonName) {
-            fetch('/log-click', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ button: buttonName, timestamp: new Date().toISOString() })
-            }).catch(err => console.error("Logging failed", err));
-        }
-
-        // Example: Attach `logClick` to button events
-        document.querySelectorAll('button').forEach(button => {
-            button.addEventListener('click', () => {
-                logClick(button.textContent.trim());
-            });
-        });
-
-    </script>
-
-</body>
-
-</html>
+  p.signature {
+    font-size: 20px; /* Ensure signature is visible */
+    padding: 0 5px; /* Adjust padding */
+    margin-top: 10px; /* Space above signature */
+  }
+}
