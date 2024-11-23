@@ -161,4 +161,53 @@ body {
   padding-top: 10px; /* Space between the signature and separator */
   width: fit-content; /* Ensure it only takes as much space as needed */
   }
-  
+
+/* Change */
+
+@media (max-width: 768px) {
+  #letter {
+    padding: 15px;
+    font-size: 16px;
+    margin: 10px; /* Adjust spacing */
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+
+  p.signature {
+    font-size: 16px; /* Slightly larger signature font */
+    padding: 0 5px; /* Prevent text clipping on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  #letter.animate  {
+    padding: 2vw; /* Use viewport width for responsive padding */
+    font-size: 4vw; /* Font size adjusts based on screen size */
+    margin: 0vw auto; /* Margin will adjust automatically */
+    margin-top: -10vh; /* Vertical margin based on viewport height */
+    align-items: center;
+    margin-left: 7vw;
+    
+    }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  p.signature {
+    font-size: 20px; /* Ensure signature is visible */
+    padding: 0 5px; /* Adjust padding */
+    margin-top: 10px; /* Space above signature */
+  }
+}
