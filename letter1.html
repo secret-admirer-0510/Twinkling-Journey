@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="open-lst.css" />
+    <script>
+      function openUp() {
+        const $opentop = document.querySelector("#opentop");
+        const $top = document.querySelector("#top");
+        const $front = document.querySelector("#front");
+        const $back = document.querySelector("#back");
+        const $letter = document.querySelector("#letter");
+        const $button = document.querySelector("button");
+
+        $opentop.beginElement();
+        $top.style.zIndex = 2;
+
+        $top.classList.add("animate");
+        $front.classList.add("animate");
+        $back.classList.add("animate");
+        $button.classList.add("animate");
+        $letter.classList.add("animate");
+
+        // Log the button click event for letter1.html
+        logButtonClick('Click Here');
+      }
+
+      // Function to log button click events
+      function logButtonClick(buttonName) {
+        fetch('/log-click', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ button: buttonName, timestamp: new Date().toISOString(), page: 'letter1.html' })
+        }).catch(err => console.error("Logging failed", err));
+      
+      }
+    </script>
+  </head>
+  <body>
+    <div class="text">
+      <h1>Hey ! Listen this is for you 💖....</h1>
+    </div>
+    <div id="envelope">
+      <div id="back">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          height="300"
+          width="300"
+        >
+          <polygon
+            points="0,100 300,100 300,300 0,300"
+            style="fill: #4a274a; stroke: none; stroke-width: 0"
+          />
+        </svg>
+      </div>
+      <div id="front">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          height="300"
+          width="300"
+        >
+          <polygon
+            points="0,100 150,200 300,100 300,300 0,300"
+            style="fill: #2abad0; stroke: #ffffff; stroke-width: 3"
+          />
+        </svg>
+      </div>
+      <div id="top">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          height="300"
+          width="300"
+        >
+          <polygon
+            points="0,100 150,200 300,100"
+            style="fill: #2abad0; stroke: #ffffff; stroke-width: 2"
+          >
+            <animate
+              id="opentop"
+              attributeName="points"
+              dur="0.5s"
+              fill="freeze"
+              begin="indefinite"
+              from="0,100 150,200 300,100"
+              to="0,100 150,0 300,100"
+            />
+          </polygon>
+        </svg>
+      </div>
+
+      <div id="letter">
+        <h1>For My <span>Guiding Light</span></h1>
+        <p>
+          🌟 From the moment I noticed you, my perspective on the world shifted for the better. Your kindness, intelligence, and the calm confidence you exude are truly inspiring. ✨ Even though we haven't had the chance to connect closely yet, the way your positivity shines through, even from a distance, keeps me motivated. 💪 You motivate me to strive for my best and remind me that there's beauty in simplicity and sincerity. 🌸 Your laughter and smile, even in glimpses, have a way of brightening my day. 😊<br /><br />
+          I appreciate how effortlessly you bring positivity to those around you, including me. 🌈 It’s amazing how someone can have such an inspiring presence from afar. 🌻 I’ve learned to appreciate the beauty in small moments, something I’ve come to see through you. 🪷 You remind me to keep dreaming and working toward being a better version of myself. 💫😊 
+        </p>
+        <p class="signature">--Secret Motivation Seeker</p>
+      </div>
+      <button onclick="openUp()">Click Here</button>
+    </div>
+  </body>
+</html>

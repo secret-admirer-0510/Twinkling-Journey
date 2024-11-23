@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Moments of Joy</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: mistyrose;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .yes-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .no-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .skip-btn {
+            background-color: #808080;
+            color: white;
+        }
+
+        .funny-msg,
+        .fun-msg,
+        .compliment-msg,
+        .quiz-msg {
+            margin-top: 20px;
+            color: #555;
+            display: none;
+        }
+
+        .playful-msg,
+        .appreciation-msg {
+            margin-top: 20px;
+            color: #555;
+            display: none;
+        }
+
+        input#userName {
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        #progress {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Intro Section -->
+    <div id="intro" class="container">
+        <h2>Welcome to the interactive experience!</h2>
+        <p>This is a fun, lighthearted interactive page I made for you. Don’t worry, no pressure at all! 😊</p>
+        <!-- <button class="skip-btn" onclick="skipIntro()">Skip Intro</button> -->
+        <button class="yes-btn" onclick="startInteraction()">Start</button>
+    </div>
+
+    <div id="step0" class="container" style="display: none;">
+        <h2>What can I call you?</h2>
+        <input type="text" id="userName" placeholder="Enter your name" style="padding: 10px; margin: 10px;">
+        <button class="yes-btn" onclick="captureName()">Next</button>
+        <!-- <button class="skip-btn" onclick="nextStep('step1')">Skip</button> -->
+        <div id="progress">Step 1 of 7</div>
+    </div>
+
+    <div id="step1" class="container" style="display: none;">
+        <h2 id="welcomeMessage"></h2>
+        <p>Now, are you comfortable with me?</p>
+        <button class="yes-btn" onclick="nextStep('step2')">Yes</button>
+        <button class="no-btn" onclick="showFunnyMessage()">Not sure yet...</button>
+        <button class="skip-btn" onclick="nextStep('step2')">Skip</button>
+        <p class="funny-msg" id="funnyMsg">Take your time! I have a feeling you'll say 'Yes' when you're ready. 😊</p>
+        <div id="progress">Step 2 of 7</div>
+    </div>
+
+    <div id="step2" class="container" style="display: none;">
+        <h2>I knew it! 😊</h2>
+        <p>But don't worry, I'll make sure you stay comfortable. Ready for the next step?</p>
+        <button class="yes-btn" onclick="nextStep('step3')">Absolutely!</button>
+        <button class="no-btn" onclick="showFunMessage()">Hmm, maybe?</button>
+        <button class="skip-btn" onclick="nextStep('step3')">Skip</button>
+        <p class="fun-msg hidden" id="funMsg">Don't be shy! Hit 'Absolutely!</p>
+        <div id="progress">Step 3 of 7</div>
+    </div>
+
+    <div id="step3" class="container" style="display: none;">
+        <h2>What do you think is your best quality? Take your pick:</h2>
+        <button onclick="showCompliment('smile')">My smile</button>
+        <button onclick="showCompliment('simplicity')">My simplicity</button>
+        <button onclick="showCompliment('all')">Not sure...</button>
+        <p id="complimentMsg" class="compliment-msg"></p>
+        <button class="skip-btn" onclick="nextStep('step4')">Skip</button>
+        <div id="progress">Step 4 of 7</div>
+    </div>
+
+    <div id="step4" class="container" style="display: none;">
+        <h2>Let’s test your awesomeness level!</h2>
+        <p>What’s better than a day full of joy?</p>
+        <button onclick="logQuizAnswer('A day full of joy AND success!')">A day full of joy AND success!</button>
+        <button onclick="logQuizAnswer('A compliment from someone who cares!')">A compliment from someone who
+            cares!</button>
+        <button onclick="logQuizAnswer('All the good vibes in the world!')">All the good vibes in the world!</button>
+        <p id="quizMsg" class="quiz-msg">Absolutely! You deserve all the joy, success, and good vibes out there! 🌈✨</p>
+        <button class="skip-btn" onclick="nextStep('final')">Skip</button>
+        <div id="progress">Step 5 of 7</div>
+    </div>
+
+    <div id="final" class="container" style="display: none;">
+        <h2>Now that we're officially in sync...</h2>
+        <p>Hope this brought a smile! No pressure to reply, but it’d be great to know your thoughts if you feel like
+            sharing. 😊</p>
+        <button class="yes-btn" onclick="thankYou()">Deal!</button>
+        <button class="no-btn" onclick="showAppreciation()">Let me think...</button>
+        <p class="appreciation-msg" id="appreciationMsg">Take your time, but remember, you're appreciated no matter
+            what! 🌟</p>
+        <div id="progress">Step 6 of 7</div>
+    </div>
+
+    <!-- Confetti.js Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+    <script>
+
+        function startInteraction() {
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('step0').style.display = 'block';
+        }
+        let currentStep = 0;
+
+        function nextStep(stepId) {
+            document.querySelectorAll('.container').forEach(container => container.style.display = 'none');
+            document.getElementById(stepId).style.display = 'block';
+            currentStep++;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const totalSteps = 5;
+            document.getElementById('progress').textContent = `Step ${currentStep + 1} of ${totalSteps}`;
+        }
+
+        function showFunnyMessage() {
+            document.getElementById('funnyMsg').style.display = 'block';
+        }
+
+        function showFunMessage() {
+            document.getElementById('funMsg').style.display = 'block';
+        }
+
+        function showCompliment(option) {
+            const compliments = {
+                smile: "Correct! Your smile lights up the room! 😊",
+                simplicity: "Perfect answer! Your simplicity shows that true beauty is often found in authenticity and genuineness. 😊",
+                all: "That’s okay! The answer is... all of it! You’re just amazing. 😄"
+            };
+            logUserInput('ComplimentChoice', option); // Log the compliment choice
+            document.getElementById('complimentMsg').textContent = compliments[option];
+            document.getElementById('complimentMsg').style.display = 'block';
+            setTimeout(() => nextStep('step4'), 4500);
+        }
+
+        function showQuizAnswer() {
+            document.getElementById('quizMsg').style.display = 'block';
+            setTimeout(() => nextStep('final'), 2000);
+        }
+
+        function showAppreciation() {
+            document.getElementById('appreciationMsg').style.display = 'block';
+        }
+
+        function thankYou() {
+            alert("Thank you for playing along! You're the best! 💖");
+            showConfetti();
+            setTimeout(() => {
+                window.location.href = "letter1.html";
+            }, 2000);
+        }
+
+        function showConfetti() {
+            const confettiSettings = { target: 'confettiCanvas' };
+            const confetti = new ConfettiGenerator(confettiSettings);
+            confetti.render();
+        }
+
+
+
+        let userName = "";
+
+        function captureName() {
+            const input = document.getElementById('userName').value.trim();
+            if (input) {
+                userName = input;
+                logUserInput('Name', userName); // Log the name to the server
+                document.getElementById('welcomeMessage').textContent = `Welcome, ${userName}!`;
+                nextStep('step1');
+            } else {
+                alert("Please enter your name to proceed.");
+            }
+        }
+
+        function logUserInput(inputType, value) {
+            fetch('/log-input', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ inputType, value, timestamp: new Date().toISOString() })
+            }).catch(err => console.error("Logging failed", err));
+        }
+
+        function logQuizAnswer(answer) {
+            logUserInput('QuizAnswer', answer); // Log the selected answer
+            document.getElementById('quizMsg').style.display = 'block';
+            setTimeout(() => nextStep('final'), 2000);
+        }
+
+        function logClick(buttonName) {
+            fetch('/log-click', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ button: buttonName, timestamp: new Date().toISOString() })
+            }).catch(err => console.error("Logging failed", err));
+        }
+
+        // Example: Attach `logClick` to button events
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                logClick(button.textContent.trim());
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

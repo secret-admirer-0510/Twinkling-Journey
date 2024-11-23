@@ -1,0 +1,164 @@
+body {
+    margin: 0;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  
+    background-image: linear-gradient(0deg, #e87d7d 0%, #11a4ff 100%);
+  }
+  
+  #envelope {
+    position: absolute;
+    top: calc(50vh - 200px);
+    left: calc(50vw - 150px);
+    width: 300px;
+    height: 300px;
+  }
+  
+  #envelope > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+  }
+  
+  #back {
+    display: block;
+    z-index: 0;
+  }
+  
+  #front {
+    display: block;
+    z-index: 10;
+  }
+  
+  #top {
+    display: block;
+    z-index: 11;
+  }
+  
+  #top.animate,
+  #front.animate,
+  #back.animate,
+  #envelope button.animate {
+    opacity: 0;
+    transition: opacity 1s;
+    transition-delay: 1s;
+  }
+  
+  #letter {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    padding: 10px; /* Increased padding for more space inside */
+    z-index: 5;
+    left: 10px; /* Adjusted for new proportions */
+    right: 10px;
+    bottom: 5px;
+    top: 95px; /* Adjusted initial position */
+    
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    word-wrap: break-word;
+    font-size: 18px; /* Increased font size */
+  }
+  h1 {
+    padding-top: 12px;
+  }
+  h1 span {
+    color: red;
+  }
+  p {
+    font-size: 17px;
+    /* padding: 2px; */
+    margin: 0 0 5px 0;
+    line-height: 20px;  
+  }
+  #letter img {
+    background-size: cover;
+  }
+  #letter.animate {
+    animation: makebig 2s forwards;
+    animation-delay: 1s;
+  }
+  
+  @keyframes makebig {
+    0% {
+      top: 95px;
+      left: 10px;
+      right: 10px;
+      bottom: 5px;
+      font-size: 18px;
+    }
+    33% {
+      top: -120px; /* Moved higher for length */
+      left: 5px;   /* Reduced margins for larger width */
+      right: 5px;
+      bottom: 180px; /* Increased bottom space for height */
+      font-size: 20px;
+    }
+    100% {
+      top: -20px;
+      left: -75px;
+      right: -45px;
+      bottom: -190px; /* Increased proportions overall */
+      font-size: 28px; /* Final font size for larger text */
+    }
+  }
+  
+  #letter h1 {
+    font-size: inherit;
+  }
+  
+  #letter h2 {
+    font-size: inherit;
+  }
+  
+  #letter img {
+    height: 50%;
+  }
+  a {
+    color: red;
+  }
+  #envelope button {
+    display: block;
+    z-index: 15;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgb(255, 89, 0);
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    top: calc(200px - 25px);
+    left: calc(150px - 25px);
+    transition: transform 1s, background-color 1s, color 1s;
+  }
+  
+  #envelope button:hover {
+    background-color: white;
+    transform: scale(1.5);
+    color: rgb(255, 89, 0);
+    transition: transform 1s, background-color 1s, color 1s;
+  }
+  .text h1 {
+    color: rgb(255, 255, 255);
+    text-align: center;
+  }
+  
+  p.signature {
+  margin: 20px 0 0 auto; /* Space above and align to the right */
+  text-align: right; /* Align text to the right */
+  font-style: italic; /* Italicize for a handwritten feel */
+  font-size: 18px; /* Slightly larger font for emphasis */
+  color: #555; /* Subtle color to differentiate */
+  font-family: 'Dancing Script', cursive; /* Elegant font style */
+  border-top: 1px solid #ddd; /* Optional separator above */
+  padding-top: 10px; /* Space between the signature and separator */
+  width: fit-content; /* Ensure it only takes as much space as needed */
+  }
+  
